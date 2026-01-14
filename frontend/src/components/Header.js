@@ -54,7 +54,7 @@ const Header = () => {
       await logout();
       setAvatarMenuOpen(false);
       setSidebarOpen(false);
-      navigate('/');
+      navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
     }

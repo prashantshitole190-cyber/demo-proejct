@@ -54,20 +54,20 @@ const About = () => {
           <div className="team-grid">
             <div className="team-member">
               <div className="member-avatar">👨‍💻</div>
-              <h3>Development Team</h3>
-              <p>Full-stack developers passionate about creating exceptional user experiences.</p>
+              <h3>Development by</h3>
+              <p>Full-stack developers passionate about creating exceptional user experiences by Jahed Inamdar</p>
             </div>
             
             <div className="team-member">
               <div className="member-avatar">🎨</div>
-              <h3>Design Team</h3>
-              <p>UI/UX designers focused on creating intuitive and beautiful interfaces.</p>
+              <h3>Designed by</h3>
+              <p>UI/UX design focused on creating intuitive and beautiful interfaces by Jahed Inamdar.</p>
             </div>
             
             <div className="team-member">
               <div className="member-avatar">📝</div>
-              <h3>Content Team</h3>
-              <p>Writers and editors helping to curate and promote quality content.</p>
+              <h3>Content by</h3>
+              <p>Writers and editors helping to curate and promote quality content by Jahed Inamdar.</p>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@ const About = () => {
             <div className="contact-item">
               <div className="contact-icon">📧</div>
               <h3>Email</h3>
-              <p>hello@mediumclone.com</p>
+              <p>jahedinamdar786@gmail.com</p>
             </div>
             
             <div className="contact-item">
