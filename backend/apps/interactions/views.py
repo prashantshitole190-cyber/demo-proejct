@@ -45,7 +45,7 @@ def clap_article(request, slug):
         print(f"Error in clap_article: {e}")
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['POST', 'DELETE'])
+@api_view(['POST', 'DELETE', 'PUT'])
 @permission_classes([IsAuthenticated])
 def bookmark_article(request, slug):
     print(f"Bookmark request received for slug: {slug}, user: {request.user}, method: {request.method}")
@@ -54,12 +54,25 @@ def bookmark_article(request, slug):
         print(f"Article found: {article.title}")
         
         if request.method == 'POST':
+            notes = request.data.get('notes', '')
             bookmark, created = Bookmark.objects.get_or_create(
                 user=request.user, 
-                article=article
+                article=article,
+                defaults={'notes': notes}
             )
+            if not created and notes:
+                bookmark.notes = notes
+                bookmark.save()
             print(f"Bookmark successful: created={created}")
             return Response({'bookmarked': True, 'message': 'Bookmarked successfully'})
+        
+        elif request.method == 'PUT':
+            bookmark = Bookmark.objects.filter(user=request.user, article=article).first()
+            if bookmark:
+                bookmark.notes = request.data.get('notes', '')
+                bookmark.save()
+                return Response({'message': 'Notes updated successfully'})
+            return Response({'error': 'Bookmark not found'}, status=status.HTTP_404_NOT_FOUND)
         
         elif request.method == 'DELETE':
             deleted_count = Bookmark.objects.filter(user=request.user, article=article).delete()[0]

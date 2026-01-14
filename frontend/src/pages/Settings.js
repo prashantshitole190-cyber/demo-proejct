@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import api from '../services/api';
 
 const Settings = () => {
   const { user, updateUser } = useAuth();
+  const { darkMode, toggleDarkMode } = useTheme();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -124,6 +126,22 @@ const Settings = () => {
                 placeholder="Tell us about yourself..."
                 rows="4"
               />
+            </div>
+          </div>
+
+          <div className="form-section">
+            <h3>Appearance</h3>
+            
+            <div className="form-group">
+              <label className="checkbox-label">
+                <input 
+                  type="checkbox" 
+                  checked={darkMode}
+                  onChange={toggleDarkMode}
+                />
+                <span>Dark Mode</span>
+              </label>
+              <p style={{fontSize: '14px', color: '#6b6b6b', marginTop: '8px'}}>Enable dark theme for better reading at night</p>
             </div>
           </div>
 

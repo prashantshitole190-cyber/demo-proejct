@@ -143,3 +143,87 @@ def user_following(request):
     )
     serializer = UserSerializer(following_users, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def block_user(request, email):
+    try:
+        user_to_block = User.objects.get(email=email)
+        
+        if user_to_block == request.user:
+            return Response({'error': 'Cannot block yourself'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if request.method == 'POST':
+            from .models import Block
+            block, created = Block.objects.get_or_create(
+                blocker=request.user,
+                blocked=user_to_block
+            )
+            return Response({'blocked': True})
+        
+        elif request.method == 'DELETE':
+            from .models import Block
+            Block.objects.filter(blocker=request.user, blocked=user_to_block).delete()
+            return Response({'blocked': False})
+            
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def report_content(request):
+    from .models import Report
+    
+    report_type = request.data.get('report_type')
+    description = request.data.get('description')
+    reported_user_email = request.data.get('reported_user')
+    article_slug = request.data.get('article')
+    comment_id = request.data.get('comment')
+    
+    report_data = {
+        'reporter': request.user,
+        'report_type': report_type,
+        'description': description,
+    }
+    
+    if reported_user_email:
+        try:
+            report_data['reported_user'] = User.objects.get(email=reported_user_email)
+        except User.DoesNotExist:
+            pass
+    
+    if article_slug:
+        from apps.articles.models import Article
+        try:
+            report_data['article'] = Article.objects.get(slug=article_slug)
+        except Article.DoesNotExist:
+            pass
+    
+    if comment_id:
+        from apps.comments.models import Comment
+        try:
+            report_data['comment'] = Comment.objects.get(id=comment_id)
+        except Comment.DoesNotExist:
+            pass
+    
+    report = Report.objects.create(**report_data)
+    return Response({'message': 'Report submitted successfully', 'id': report.id}, status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def export_bookmarks(request):
+    from apps.interactions.models import Bookmark
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('article')
+    
+    data = []
+    for bookmark in bookmarks:
+        data.append({
+            'title': bookmark.article.title,
+            'url': f'/article/{bookmark.article.slug}',
+            'author': bookmark.article.author.username,
+            'notes': bookmark.notes,
+            'bookmarked_at': bookmark.created_at.isoformat(),
+        })
+    
+    return Response({'bookmarks': data, 'count': len(data)})

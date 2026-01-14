@@ -305,24 +305,6 @@ const Header = () => {
               <span className="sidebar-text">Settings</span>
             </Link>
             
-            <Link to="/help" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
-              <svg className="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                <line x1="12" y1="17" x2="12.01" y2="17"/>
-              </svg>
-              <span className="sidebar-text">Help Center</span>
-            </Link>
-            
-            <Link to="/about" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
-              <svg className="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="16" x2="12" y2="12"/>
-                <line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-              <span className="sidebar-text">About Us</span>
-            </Link>
-            
             <div className="sidebar-divider"></div>
             
             <button onClick={handleLogout} className="sidebar-link sidebar-link-logout">

@@ -398,7 +398,7 @@ const Profile = () => {
                     <div className="article-meta">
                       <span>{article.read_time} min read</span>
                       <span>•</span>
-                      <span>{article.views_count} views</span>
+                      <span>{article.claps_count || 0} claps</span>
                       {article.tags && article.tags.length > 0 && (
                         <>
                           <span>•</span>
