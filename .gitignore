@@ -10,7 +10,11 @@ db.sqlite3
 
 # Environment variables
 .env
+.env.example
 venv/
+
+# Documentation to exclude
+API_TESTING_GUIDE.md
 
 # Media files
 media/

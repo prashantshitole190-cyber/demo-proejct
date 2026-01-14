@@ -55,31 +55,28 @@ def logout(request):
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
     
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return UserSerializer
-        # Check if request contains avatar file
-        elif 'avatar' in self.request.FILES:
-            return AvatarUpdateSerializer
-        else:
-            return UserUpdateSerializer
-    
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = True
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         
-        if serializer.is_valid():
-            self.perform_update(serializer)
-            # Return full user data with counts
-            return Response(UserSerializer(instance).data)
-        else:
-            print("Profile update errors:", serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Handle avatar separately if present
+        if 'avatar' in request.FILES:
+            instance.avatar = request.FILES['avatar']
+            instance.save()
+        
+        # Update other fields
+        for field in ['first_name', 'last_name', 'bio', 'website', 'twitter', 'linkedin', 'github']:
+            if field in request.data:
+                setattr(instance, field, request.data[field])
+        
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 class UserDetailView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
