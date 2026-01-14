@@ -176,39 +176,14 @@ const Header = () => {
                       
                       <button 
                         type="button"
-                        className="dropdown-item" 
-                        onClick={() => handleNavigation('/settings')}
-                      >
-                        <span className="dropdown-icon">⚙️</span>
-                        Settings
-                      </button>
-                      
-                      <button 
-                        type="button"
-                        className="dropdown-item" 
-                        onClick={() => handleNavigation('/help')}
-                      >
-                        <span className="dropdown-icon">❓</span>
-                        Help
-                      </button>
-                      
-                      <button 
-                        type="button"
-                        className="dropdown-item" 
-                        onClick={() => handleNavigation('/about')}
-                      >
-                        <span className="dropdown-icon">ℹ️</span>
-                        About Us
-                      </button>
-                      
-                      <div className="dropdown-divider"></div>
-                      
-                      <button 
-                        type="button"
                         className="dropdown-item logout-item" 
                         onClick={handleLogout}
                       >
-                        <span className="dropdown-icon">🚪</span>
+                        <svg className="dropdown-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                          <polyline points="16 17 21 12 16 7"/>
+                          <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
                         Sign out
                       </button>
                     </div>
@@ -337,6 +312,15 @@ const Header = () => {
                 <line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
               <span className="sidebar-text">Help Center</span>
+            </Link>
+            
+            <Link to="/about" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
+              <svg className="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <span className="sidebar-text">About Us</span>
             </Link>
             
             <div className="sidebar-divider"></div>
