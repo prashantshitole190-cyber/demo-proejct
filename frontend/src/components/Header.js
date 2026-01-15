@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { notificationsAPI } from '../services/api';
 
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
@@ -18,6 +19,13 @@ const Header = () => {
       fetchUnreadCount();
     }
   }, [user]);
+
+  useEffect(() => {
+    // Auto-open sidebar when navigating back or to any page
+    if (user) {
+      setSidebarOpen(true);
+    }
+  }, [location.pathname, user]);
 
   useEffect(() => {
     // Update main content margin based on sidebar state
