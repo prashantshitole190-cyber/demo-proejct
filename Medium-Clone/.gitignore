@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+
+# Django
+*.log
+db.sqlite3
+
+# Environment variables
+.env
+.env.example
+venv/
+
+# Documentation to exclude
+API_TESTING_GUIDE.md
+
+# Media files
+media/
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# React build
+/frontend/build
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
