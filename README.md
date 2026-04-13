@@ -104,7 +104,7 @@ CREATE DATABASE medium_clone_db1;
 CREATE USER medium_clone_user1 WITH PASSWORD 'medium_clone_pass1';
 GRANT ALL PRIVILEGES ON DATABASE medium_clone_db1 TO medium_clone_user1;
 \q
-```
+'''I have creadted 
 
 ### Backend Setup
 
